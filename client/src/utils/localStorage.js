@@ -15,14 +15,16 @@ export const saveBookIds = (bookIdArr) => {
 };
 
 export const removeBookId = (bookId) => {
-  const savedBookIds = getSavedBookIds();
+  const savedBookIds = localStorage.getItem('saved_books')
+    ? JSON.parse(localStorage.getItem('saved_books'))
+    : null;
 
-  if (!savedBookIds.length) {
+  if (!savedBookIds) {
     return false;
   }
 
-  const updatedSavedBookIds = savedBookIds.filter((savedBookId) => savedBookId !== bookId);
-  saveBookIds(updatedSavedBookIds);
+  const updatedSavedBookIds = savedBookIds?.filter((savedBookId) => savedBookId !== bookId);
+  localStorage.setItem('saved_books', JSON.stringify(updatedSavedBookIds));
 
   return true;
 };
